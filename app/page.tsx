@@ -1,3 +1,17 @@
+import { About } from "@/components/sections/About";
+import { Home } from "@/components/sections/Home";
+import { Projects } from "@/components/sections/Projects";
+import { Skills } from "@/components/sections/Skills";
+import { Contact } from "@/components/sections/Contact";
+
 export default function LandingPage() {
-  return <div className="text-center">Landing Home Page</div>;
+  return (
+    <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+      <Home />
+      <About />
+      <Skills />
+      <Projects />
+      <Contact />
+    </div>
+  );
 }
