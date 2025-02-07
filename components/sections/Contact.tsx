@@ -4,6 +4,7 @@ import { ScrollAnimation } from "../animations/ScrollAnimation";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { SocialContact } from "../ui/SocialContact";
 import { useContactForm } from "@/hooks/useContactForm";
+import { profile } from "@/lib/data/profile";
 
 export const Contact: React.FC = () => {
   const { isSubmitting, formStatus, handleSubmit } = useContactForm();
@@ -20,16 +21,16 @@ export const Contact: React.FC = () => {
 
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
-            <Mail className="w-6 h-6 text-blue-700" />
-            <span className="text-lg">hoangl.dev@gmail.com</span>
+            <Mail className="w-6 h-6 text-blue-700 dark:text-blue-400" />
+            <span className="text-lg">{profile.contactInfo.email}</span>
           </div>
           <div className="flex items-center gap-4">
-            <Phone className="w-6 h-6 text-blue-700" />
-            <span className="text-lg">+84 369 874 979</span>
+            <Phone className="w-6 h-6 text-blue-700 dark:text-blue-400" />
+            <span className="text-lg">{profile.contactInfo.phone}</span>
           </div>
           <div className="flex items-center gap-4">
-            <MapPin className="w-6 h-6 text-blue-700" />
-            <span className="text-lg">Da Nang, Vietnam</span>
+            <MapPin className="w-6 h-6 text-blue-700 dark:text-blue-400" />
+            <span className="text-lg">{profile.contactInfo.location}</span>
           </div>
         </div>
 
@@ -47,7 +48,8 @@ export const Contact: React.FC = () => {
               type="text"
               id="name"
               name="name"
-              className="p-2 rounded border border-gray-300 focus:border-blue-700 focus:outline-none"
+              className="p-2 rounded border border-gray-300 dark:border-gray-700 dark:bg-gray-900 focus:border-blue-700 dark:focus:border-blue-400
+              dark:text-white focus:outline-none"
               placeholder="Your name"
             />
           </div>
@@ -60,7 +62,8 @@ export const Contact: React.FC = () => {
               type="email"
               id="email"
               name="email"
-              className="p-2 rounded border border-gray-300 focus:border-blue-700 focus:outline-none"
+              className="p-2 rounded border border-gray-300 dark:border-gray-700 dark:bg-gray-900 focus:border-blue-700 dark:focus:border-blue-400
+              dark:text-white focus:outline-none"
               placeholder="Your email"
             />
           </div>
@@ -73,7 +76,8 @@ export const Contact: React.FC = () => {
               id="message"
               name="message"
               rows={6}
-              className="p-2 rounded border border-gray-300 focus:border-blue-700 focus:outline-none resize-none"
+              className="p-2 rounded border border-gray-300 dark:border-gray-700 dark:bg-gray-900 focus:border-blue-700 dark:focus:border-blue-400
+              dark:text-white focus:outline-none resize-none"
               placeholder="Your message"
             />
           </div>
@@ -82,8 +86,8 @@ export const Contact: React.FC = () => {
             <div
               className={`p-3 rounded ${
                 formStatus.type === "success"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-700"
+                  ? "bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-200"
+                  : "bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-200"
               }`}
             >
               {formStatus.message}
@@ -93,7 +97,7 @@ export const Contact: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`bg-blue-700 text-white py-2 px-6 rounded hover:bg-blue-800 transition-colors mt-4 self-start
+            className={`bg-blue-700 dark:bg-blue-800 text-white dark:text-gray-200 py-2 px-6 rounded hover:bg-blue-800 dark:hover:bg-blue-900 transition-colors mt-4 self-start
               ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
           >
             {isSubmitting ? "Sending..." : "Send Message"}

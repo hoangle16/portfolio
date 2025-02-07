@@ -3,6 +3,7 @@ import { Typewriter } from "react-simple-typewriter";
 import { ScrollAnimation } from "../animations/ScrollAnimation";
 import { SocialContact } from "../ui/SocialContact";
 import { DownloadIcon } from "lucide-react";
+import { profile } from "@/lib/data/profile";
 
 export const Home: React.FC = () => {
   const navigateTo = (href: string) => {
@@ -13,10 +14,11 @@ export const Home: React.FC = () => {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+
   const getResume = () => {
     // TODO: replace with firebase url
     window.open(
-      "https://drive.google.com/file/d/1e5Z8CW0I_EUqQOtWx7GbJj7t7Zrx7-UI/view?usp=sharing",
+      profile.resumeUrl,
       "_blank"
     );
   };
@@ -27,16 +29,12 @@ export const Home: React.FC = () => {
     >
       <ScrollAnimation direction="right" className="w-full md:w-1/2 space-y-4">
         <h1 className="text-5xl">Hi, I am</h1>
-        <h2 className="text-6xl font-bold">Le Hoang</h2>
+        <h2 className="text-6xl font-bold">{profile.name}</h2>
         <h3 className="text-2xl mb-4">
           <span>I am a </span>
-          <span className="text-blue-500">
+          <span className="text-blue-500 dark:text-blue-400">
             <Typewriter
-              words={[
-                "Full Stack Developer.",
-                "Web Developer.",
-                "Software Developer.",
-              ]}
+              words={profile.titles}
               loop={false}
               cursor
               cursorStyle="|"
@@ -53,14 +51,14 @@ export const Home: React.FC = () => {
               e.preventDefault();
               navigateTo("/#contact");
             }}
-            className="rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300"
+            className="rounded px-5 py-2.5 overflow-hidden group bg-green-500 dark:bg-green-600 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 dark:hover:from-green-600 dark:hover:to-green-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 dark:hover:ring-green-500 transition-all ease-out duration-300 dark:ring-offset-gray-900"
           >
             <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
             <span className="relative">Get In Touch</span>
           </button>
           <button
             onClick={getResume}
-            className="rounded px-5 py-2.5 overflow-hidden group bg-blue-500 relative hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all ease-out duration-300"
+            className="rounded px-5 py-2.5 overflow-hidden group bg-blue-500 dark:bg-blue-600 relative hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-400 dark:hover:from-blue-600 dark:hover:to-blue-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 dark:hover:ring-blue-500 transition-all ease-out duration-300 dark:ring-offset-gray-900"
           >
             <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
             <div className="flex justify-center gap-2">
@@ -76,6 +74,7 @@ export const Home: React.FC = () => {
           data-name="Layer 1"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 700 680"
+          className="dark:[&_[fill='#e6e6e6']]:fill-gray-700 dark:[&_[fill='#232b57']]:fill-gray-800 dark:[&_[fill='#161b69']]:fill-blue-900 dark:[&_[fill='#091292']]:fill-blue-400"
         >
           <polygon
             points="516.326 380.018 516.326 565.013 547.27 615.443 549.625 619.279 671.722 619.279 674.189 380.018 516.326 380.018"

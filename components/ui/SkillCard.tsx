@@ -8,11 +8,11 @@ export const SkillCard: React.FC<SkillCardProps> = ({
   skillIconClass,
 }) => {
   return (
-    <div className="relative w-24 h-24 group flex flex-col items-center justify-center rounded-xl bg-white shadow-lg border border-gray-200 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-gray-200/50 cursor-pointer">
+    <div className="relative w-24 h-24 group flex flex-col items-center justify-center rounded-xl bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-500 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-gray-200/50 dark:hover:shadow-gray-400/50 cursor-pointer">
       <i
-        className={`${skillIconClass} text-4xl mb-2 transition-transform duration-300 group-hover:scale-110`}
+        className={`${skillIconClass} text-gray-900 dark:text-white text-4xl mb-2 transition-transform duration-300 group-hover:scale-110`}
       ></i>
-      <h3 className="text-sm font-medium text-gray-700 transition-colors duration-300 group-hover:text-blue-600">
+      <h3 className="text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">
         {skillName}
       </h3>
 

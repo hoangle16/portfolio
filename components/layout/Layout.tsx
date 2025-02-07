@@ -22,10 +22,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   });
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-800 transition-colors duration-300">
       <Navbar isScrolled={isScrolled} />
       <ScrollProgress />
-      <main className="flex-grow">{children}</main>
+      <main className="flex-grow text-gray-900 dark:text-white">
+        {children}
+      </main>
       <Footer />
     </div>
   );

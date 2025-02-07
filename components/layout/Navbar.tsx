@@ -4,6 +4,8 @@ import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Coiny } from "next/font/google";
+import { ThemeToggle } from "../ui/ThemeToggle";
+import { profile } from "@/lib/data/profile";
 
 interface NavbarProps {
   isScrolled: boolean;
@@ -14,6 +16,7 @@ const coiny = Coiny({ subsets: ["latin"], weight: "400" });
 export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const pathname = usePathname();
 
   const navItems = useMemo(() => {
@@ -27,6 +30,18 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
   }, []);
 
   useEffect(() => {
+    const isDark =
+      localStorage.getItem("darkMode") === "true" ||
+      (!localStorage.getItem("darkMode") &&
+        window.matchMedia("(prefers-color-schema: dark)").matches);
+
+    setIsDarkMode(isDark);
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       const sections = navItems.map((item) => item.href.replace("/#", ""));
 
@@ -35,9 +50,11 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
         if (element) {
           const rect = element.getBoundingClientRect();
           if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
-            window.history.replaceState(null, "", `/#${section}`);
-            break;
+            if (activeSection !== section) {
+              history.replaceState(null, "", `/#${section}`);
+              setActiveSection(section);
+              break;
+            }
           }
         }
       }
@@ -45,15 +62,11 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [navItems, setActiveSection]);
+  }, [navItems, activeSection]);
 
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
-    if (hash) {
-      setActiveSection(hash);
-    } else {
-      setActiveSection("home");
-    }
+    setActiveSection(hash || "home");
   }, [pathname]);
 
   const handleNavClick = (
@@ -67,19 +80,28 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
     if (element) {
       setIsMenuOpen(false);
       setActiveSection(sectionId);
-
-      // Update URL without scroll
-      window.history.pushState(null, "", href);
-
-      // Smooth scroll to section
       element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    localStorage.setItem("darkMode", String(newDarkMode));
+
+    if (newDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
     }
   };
 
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/80 backdrop-blur-md shadow-md" : "bg-transparent"
+        isScrolled
+          ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-md"
+          : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,9 +111,9 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
             <Link
               href="/#home"
               onClick={(e) => handleNavClick(e, "/#home")}
-              className={`text-2xl font-bold ${coiny.className}`}
+              className={`text-2xl font-bold dark:text-white ${coiny.className}`}
             >
-              Le Hoang
+              {profile.name}
             </Link>
           </div>
 
@@ -105,35 +127,43 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`transition-colors ${
                     activeSection === item.href.replace("/#", "")
-                      ? "text-blue-600 font-medium"
-                      : "text-gray-700 hover:text-gray-900"
+                      ? "text-blue-600 dark:text-blue-400 font-medium"
+                      : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                   }`}
                 >
                   {item.label}
                 </Link>
               ))}
+              <ThemeToggle
+                toggleDarkMode={toggleDarkMode}
+                isDarkMode={isDarkMode}
+              />
             </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center space-x-4">
+            <ThemeToggle
+              toggleDarkMode={toggleDarkMode}
+              isDarkMode={isDarkMode}
+            />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2"
               aria-label="Toggle menu"
             >
               <span
-                className={`block w-6 h-0.5 bg-gray-800 transition-all duration-300 ${
+                className={`block w-6 h-0.5 bg-gray-800 dark:bg-gray-200 transition-all duration-300 ${
                   isMenuOpen ? "rotate-45 translate-y-1.5" : ""
                 }`}
               />
               <span
-                className={`block w-6 h-0.5 bg-gray-800 mt-1 transition-all duration-300 ${
+                className={`block w-6 h-0.5 bg-gray-800 dark:bg-gray-200 mt-1 transition-all duration-300 ${
                   isMenuOpen ? "opacity-0" : ""
                 }`}
               />
               <span
-                className={`block w-6 h-0.5 bg-gray-800 mt-1 transition-all duration-300 ${
+                className={`block w-6 h-0.5 bg-gray-800 dark:bg-gray-200 mt-1 transition-all duration-300 ${
                   isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
                 }`}
               />
@@ -143,7 +173,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden absolute left-0 right-0 bg-white ${
+          className={`md:hidden absolute left-0 right-0 bg-white dark:bg-gray-900 ${
             isMenuOpen ? "block" : "hidden"
           }`}
         >
@@ -155,8 +185,8 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                 onClick={(e) => handleNavClick(e, item.href)}
                 className={`block w-full px-3 py-2 rounded-md ${
                   activeSection === item.href.replace("/#", "")
-                    ? "text-blue-600 bg-blue-50 font-medium"
-                    : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                    ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/50 font-medium"
+                    : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
                 }`}
               >
                 {item.label}
