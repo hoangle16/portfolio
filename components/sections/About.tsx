@@ -1,8 +1,17 @@
 import Image from "next/image";
 import { ScrollAnimation } from "../animations/ScrollAnimation";
-import { profile } from "@/lib/data/profile";
 
-export const About: React.FC = () => {
+interface AboutProps {
+  avatarUrl: string;
+  summary: string;
+  details?: string[];
+}
+
+export const About: React.FC<AboutProps> = ({
+  avatarUrl,
+  summary,
+  details,
+}) => {
   return (
     <section
       id="about"
@@ -13,7 +22,7 @@ export const About: React.FC = () => {
         className="w-full flex justify-center md:w-1/2"
       >
         <Image
-          src={profile.avatarUrl}
+          src={avatarUrl}
           alt="avatar"
           width={500}
           height={500}
@@ -27,10 +36,10 @@ export const About: React.FC = () => {
         <h1 className="text-4xl mb-4">About Me</h1>
         <p
           className="text-lg text-justify"
-          dangerouslySetInnerHTML={{ __html: profile.description.summary }}
+          dangerouslySetInnerHTML={{ __html: summary }}
         ></p>
         <ul className="list-disc list-inside text-lg">
-          {profile.description.details?.map((detail, index) => (
+          {details?.map((detail, index) => (
             <li key={index}>{detail}</li>
           ))}
         </ul>

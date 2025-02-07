@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Coiny } from "next/font/google";
 import { ThemeToggle } from "../ui/ThemeToggle";
-import { profile } from "@/lib/data/profile";
 
 interface NavbarProps {
   isScrolled: boolean;
@@ -13,9 +12,24 @@ interface NavbarProps {
 
 const coiny = Coiny({ subsets: ["latin"], weight: "400" });
 
+// Script to prevent flash of wrong theme
+const themeScript = `
+  let isDark;
+  try {
+    isDark = localStorage.getItem('darkMode') === 'true' ||
+      (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  } catch (e) {
+    isDark = false;
+  }
+  if (isDark) {
+    document.documentElement.classList.add('dark');
+  }
+`;
+
 export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [mounted, setMounted] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const pathname = usePathname();
 
@@ -29,16 +43,22 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
     ];
   }, []);
 
+  // Add script to head on mount
+  useEffect(() => {
+    const scriptElement = document.createElement("script");
+    scriptElement.innerHTML = themeScript;
+    document.head.insertBefore(scriptElement, document.head.firstChild);
+  }, []);
+
+  // Handle initial theme setup
   useEffect(() => {
     const isDark =
       localStorage.getItem("darkMode") === "true" ||
       (!localStorage.getItem("darkMode") &&
-        window.matchMedia("(prefers-color-schema: dark)").matches);
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
 
     setIsDarkMode(isDark);
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-    }
+    setMounted(true);
   }, []);
 
   useEffect(() => {
@@ -51,7 +71,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
           const rect = element.getBoundingClientRect();
           if (rect.top <= 100 && rect.bottom >= 100) {
             if (activeSection !== section) {
-              history.replaceState(null, "", `/#${section}`);
+              history.replaceState(null, "", `#${section}`);
               setActiveSection(section);
               break;
             }
@@ -96,6 +116,11 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
     }
   };
 
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -113,7 +138,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
               onClick={(e) => handleNavClick(e, "/#home")}
               className={`text-2xl font-bold dark:text-white ${coiny.className}`}
             >
-              {profile.name}
+              Le Hoang
             </Link>
           </div>
 

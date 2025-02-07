@@ -1,8 +1,11 @@
 import React from "react";
-import { profile } from "@/lib/data/profile";
+import { Social } from "@/types/profile";
 
-export const SocialContact: React.FC = () => {
-  const socials = profile.contactInfo.socialMedia;
+interface SocialContactProps {
+  socials: Social[];
+}
+
+export const SocialContact: React.FC<SocialContactProps> = ({ socials }) => {
   return (
     <div className="flex gap-4 md:gap-6">
       {socials.map((social) => (

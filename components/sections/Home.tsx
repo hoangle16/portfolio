@@ -3,9 +3,16 @@ import { Typewriter } from "react-simple-typewriter";
 import { ScrollAnimation } from "../animations/ScrollAnimation";
 import { SocialContact } from "../ui/SocialContact";
 import { DownloadIcon } from "lucide-react";
-import { profile } from "@/lib/data/profile";
+import { Social } from "@/types/profile";
 
-export const Home: React.FC = () => {
+interface HomeProps {
+  name: string;
+  resumeUrl: string;
+  titles: string[];
+  socials: Social[];
+}
+
+export const Home: React.FC<HomeProps> = ({ name, resumeUrl, titles, socials }) => {
   const navigateTo = (href: string) => {
     const sectionId = href.replace("/#", "");
     const element = document.getElementById(sectionId);
@@ -16,11 +23,7 @@ export const Home: React.FC = () => {
   };
 
   const getResume = () => {
-    // TODO: replace with firebase url
-    window.open(
-      profile.resumeUrl,
-      "_blank"
-    );
+    window.open(resumeUrl, "_blank");
   };
   return (
     <section
@@ -29,12 +32,12 @@ export const Home: React.FC = () => {
     >
       <ScrollAnimation direction="right" className="w-full md:w-1/2 space-y-4">
         <h1 className="text-5xl">Hi, I am</h1>
-        <h2 className="text-6xl font-bold">{profile.name}</h2>
+        <h2 className="text-6xl font-bold">{name}</h2>
         <h3 className="text-2xl mb-4">
           <span>I am a </span>
           <span className="text-blue-500 dark:text-blue-400">
             <Typewriter
-              words={profile.titles}
+              words={titles}
               loop={false}
               cursor
               cursorStyle="|"
@@ -44,7 +47,7 @@ export const Home: React.FC = () => {
             />
           </span>
         </h3>
-        <SocialContact />
+        <SocialContact socials={socials}/>
         <div className="flex flex-col sm:flex-row gap-4">
           <button
             onClick={(e) => {

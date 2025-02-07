@@ -1,9 +1,11 @@
 "use client";
-import { projects } from "@/lib/data/projects";
 import { ScrollAnimation } from "../animations/ScrollAnimation";
 import { ProjectCard } from "../ui/ProjectCard";
-
-export const Projects: React.FC = () => {
+import { Project } from "@/types/project";
+interface ProjectProps {
+  projects: Project[];
+}
+export const Projects: React.FC<ProjectProps> = ({ projects }) => {
   return (
     <section
       id="projects"

@@ -4,9 +4,21 @@ import { ScrollAnimation } from "../animations/ScrollAnimation";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { SocialContact } from "../ui/SocialContact";
 import { useContactForm } from "@/hooks/useContactForm";
-import { profile } from "@/lib/data/profile";
+import { Social } from "@/types/profile";
 
-export const Contact: React.FC = () => {
+interface ContactProps {
+  email: string;
+  phone: string;
+  location: string;
+  socials: Social[];
+}
+
+export const Contact: React.FC<ContactProps> = ({
+  email,
+  phone,
+  location,
+  socials,
+}) => {
   const { isSubmitting, formStatus, handleSubmit } = useContactForm();
   return (
     <section
@@ -22,19 +34,19 @@ export const Contact: React.FC = () => {
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
             <Mail className="w-6 h-6 text-blue-700 dark:text-blue-400" />
-            <span className="text-lg">{profile.contactInfo.email}</span>
+            <span className="text-lg">{email}</span>
           </div>
           <div className="flex items-center gap-4">
             <Phone className="w-6 h-6 text-blue-700 dark:text-blue-400" />
-            <span className="text-lg">{profile.contactInfo.phone}</span>
+            <span className="text-lg">{phone}</span>
           </div>
           <div className="flex items-center gap-4">
             <MapPin className="w-6 h-6 text-blue-700 dark:text-blue-400" />
-            <span className="text-lg">{profile.contactInfo.location}</span>
+            <span className="text-lg">{location}</span>
           </div>
         </div>
 
-        <SocialContact />
+        <SocialContact socials={socials} />
       </ScrollAnimation>
 
       <ScrollAnimation direction="down" className="w-full md:w-1/2">
