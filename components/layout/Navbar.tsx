@@ -94,6 +94,12 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
     href: string
   ) => {
     e.preventDefault();
+
+    if (pathname.startsWith("/revalidate")) {
+      window.location.href = href;
+      return;
+    }
+
     const sectionId = href.replace("/#", "");
     const element = document.getElementById(sectionId);
 

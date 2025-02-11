@@ -7,9 +7,11 @@ import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { getProfile, getProjects, getSkills } from "@/lib/data.server";
 
 export default async function LandingPage() {
-  const profile = await getProfile();
-  const projects = await getProjects();
-  const skillGroups = await getSkills();
+  const [profile, projects, skillGroups] = await Promise.all([
+    getProfile(),
+    getProjects(),
+    getSkills(),
+  ]);
   return (
     <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
       <Home

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { ImageModal } from "./ImageModal";
 import { Github, ExternalLink } from "lucide-react";
-import { Project } from "@/lib/data/projects";
+import { Project } from "@/types/project";
 
 export const ProjectCard: React.FC<Project> = ({
   title,
