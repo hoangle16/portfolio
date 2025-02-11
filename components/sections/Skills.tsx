@@ -20,7 +20,7 @@ export const Skills: React.FC<SkillsProps> = ({ skillGroups }) => {
               </h2>
               <div className="flex flex-wrap justify-center md:justify-start gap-4">
                 {group.skills.map((skill, index) => (
-                  <FadeIn key={skill.name} delay={500 + index * 100}>
+                  <FadeIn key={skill.name} delay={300 + index * 50}>
                     <SkillCard
                       key={skill.name}
                       skillName={skill.name}

@@ -26,7 +26,8 @@ export const About: React.FC<AboutProps> = ({
           alt="avatar"
           width={500}
           height={500}
-          className="shadow-2xl rounded opacity-85 hover:opacity-100 scale-90 hover:scale-100 transition-all duration-300"
+          priority
+          className="w-[90%] h-auto shadow-2xl rounded opacity-85 hover:opacity-100 scale-90 hover:scale-100 transition-all duration-300"
         />
       </ScrollAnimation>
       <ScrollAnimation

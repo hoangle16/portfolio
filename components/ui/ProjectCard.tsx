@@ -28,6 +28,7 @@ export const ProjectCard: React.FC<Project> = ({
             src={image}
             alt={title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-black/20 dark:bg-gray-800/20 group-hover:bg-black/40 dark:group-hover:bg-gray-800/40 transition-colors duration-300 flex items-center justify-center">
@@ -47,7 +48,7 @@ export const ProjectCard: React.FC<Project> = ({
               <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-300">
                 {title}
               </h3>
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
                 {sourceUrl && (
                   <a
                     href={sourceUrl}
