@@ -29,7 +29,7 @@ export default async function LandingPage() {
       <Projects projects={projects} />
       <Contact
         email={profile.contactInfo.email}
-        phone={profile.contactInfo.email}
+        phone={profile.contactInfo.phone}
         location={profile.contactInfo.location}
         socials={profile.contactInfo.socialMedia}
       />
